@@ -9,20 +9,21 @@ $(document).ready(function() {
 	   },
 	   success: function(response) {
 	     $.each(response.apartments, function(i, apartment) {
-	     	var apartmentClass = apartment.city.toLowerCase();
-	       	var listing = "<a href='#' class='list-group-item listing'><h4 class='list-group-item-heading'>"+ apartment.description + " / " + apartment.bedrooms + " BR / " + apartment.price + " / " + "</h4><p class='list-group-item-text'>" + apartment.neighborhood + "</p></a>"
+	     	var apartmentClass = apartment.city.toLowerCase().replace(" ", "-");
+	       	var listing = "<a href='#' class='list-group-item "+ apartmentClass + " listings'><h4 class='list-group-item-heading'>"+ apartment.description + " / " + apartment.bedrooms + " BR / " + apartment.price + " / " + "</h4><p class='list-group-item-text'>" + apartment.neighborhood + "</p></a>"
 	       	$(".apartments").append(listing);
 	     });
 	    }
 	})
 
 // Now we check the click on a filter
-	$(".filter").click(function({
+	$(".filter").click(function() {
 		var city = $(this).attr("id"); // on chat we click, we get the attribute Id
+		$(".listings").show(); // we have first to show all values that we may have hidden before
 
 		//if not selected city as a class so we put "." +
 		// then for them we want to hide values
-		$(".listing").not("." + city).css("display", "none");
+		$(".listings").not("." + city).css("display", "none");
 
 	});
 
