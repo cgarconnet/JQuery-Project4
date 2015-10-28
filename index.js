@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // YOUR CODE HERE!
 
-     $.ajax({
+   $.ajax({
    url: "https://api.myjson.com/bins/2sadq?pretty=1",
    dataType: "json",
    error: function(response) {
@@ -9,7 +9,8 @@ $(document).ready(function() {
    },
    success: function(response) {
      $.each(response.apartments, function(i, apartment) {
-       debugger;
+       	var listing = "<a href='#' class='list-group-item'><h4 class='list-group-item-heading'>"+ apartment.description + "</h4><p class='list-group-item-text'></p></a>"
+       	$('.apartments').append(listing);
      });
     }
  })
