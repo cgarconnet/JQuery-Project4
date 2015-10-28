@@ -8,8 +8,10 @@ $(document).ready(function() {
     console.log("error"); 
    },
    success: function(response) {
-    debugger;
-   }
+     $.each(response.apartments, function(i, apartment) {
+       debugger;
+     });
+    }
  })
 
 });
