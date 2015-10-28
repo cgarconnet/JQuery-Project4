@@ -21,9 +21,16 @@ $(document).ready(function() {
 		var city = $(this).attr("id"); // on chat we click, we get the attribute Id
 		$(".listings").show(); // we have first to show all values that we may have hidden before
 
+		if (city !== "all") { //if all, we show all before and we hide nothing
 		//if not selected city as a class so we put "." +
 		// then for them we want to hide values
-		$(".listings").not("." + city).css("display", "none");
+			$(".listings").not("." + city).css("display", "none");
+		}
+			//we have to remove the active, as we don't which one has it, we will remove to all
+			$(".filter").removeClass("active");
+
+			// then we add class active only to this
+			$(this).addClass("active");		
 
 	});
 
