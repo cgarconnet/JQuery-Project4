@@ -10,11 +10,14 @@ $(document).ready(function() {
 	   success: function(response) {
 	     $.each(response.apartments, function(i, apartment) {
 	     	var apartmentClass = apartment.city.toLowerCase().replace(" ", "-");
-	       	var listing = "<a href='http://map.google.com/?q=" + apartment.address + "' target=_new id="+ apartment.id + " class='list-group-item "+ apartmentClass + " listings'><h4 class='list-group-item-heading'>"+ apartment.description + " / " + apartment.bedrooms + " BR / " + apartment.price + " / " + "</h4><p class='list-group-item-text'>" + apartment.neighborhood + "</p></a>"
+	       	var listing = "<a href='#' id="+ apartment.id + " class='list-group-item "+ apartmentClass + " listings'><h4 class='list-group-item-heading'>"+ apartment.description + " / " + apartment.bedrooms + " BR / " + apartment.price + " / " + "</h4><p class='list-group-item-text'>" + apartment.neighborhood + "</p></a>"
 	       	$(".apartments").append(listing);
 	     });
+	     // old value of href='#' -> http://map.google.com/?q=" + apartment.address + "
 	    }
 	})
+
+
 
 // Now we check the click on a filter
 	$(".filter").click(function() {
@@ -31,6 +34,46 @@ $(document).ready(function() {
 
 		// then we add class active only to this
 		$(this).addClass("active");		
+
+	});
+
+
+
+
+	$(document).on("click", ".listings", function(){
+		// This function will allow us to call google when clicking on each listing
+		// We have to target the document and not the .listing.click .. because such 
+		// element do not exist when the document is first loaded
+
+//		console.log($(this).attr("id"));
+		var id = $(this).attr("id"); //we get the Id we just collected in the code above under listing
+
+		// modal window but that would not prevent that modal to keep focus on that page
+		$('.popup').modal('show');
+
+	   	$.ajax({
+		   url: "https://api.myjson.com/bins/2sadq?pretty=1",
+		   dataType: "json",
+		   error: function(error) {
+		    console.log(error); 
+		   },
+		   success: function(response) {
+		   		var selectedApartment = $.grep(response.apartments, function(apartment){
+		   			return apartment.id == id;
+		   		})
+		   		//debugger;
+		   		// before selected Apartment was an array of Object.
+		   		// so we can access the Object thru selectedApartment[0]
+		   		var address = selectedApartment[0].address;
+		   		window.open("http://map.google.com?q=" + address);
+
+		   	}
+		    //  },
+		    // complete : function(resultat, statut){
+	   		// 	$('.popup').modal('show');
+      //  		}
+		});
+
 
 	});
 
